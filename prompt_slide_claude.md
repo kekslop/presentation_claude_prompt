@@ -1,4 +1,4 @@
-
+###Main presentation prompt for one horizontal slide generation with few-shot examples in html
 ```
 ###INSTRUCTION###
 
@@ -140,13 +140,11 @@ You MUST ALWAYS:
     </div>
 </body>
 </html>
-```
 ###SLIDE CONTENT TYPES###
 
 CHOOSE ONE PRIMARY CONTENT TYPE:
 
 1. CARD GRID:
-```html
 <div class="cards-container">
     <div class="card [optional-phase-class]">
         <h3>[Card Title]</h3>
@@ -154,10 +152,8 @@ CHOOSE ONE PRIMARY CONTENT TYPE:
     </div>
     <!-- Repeat card structure as needed -->
 </div>
-````
 
 2. DATA VISUALIZATION:
-```html
 <div class="visualization-container">
     <div class="chart-area">
         <!-- Specify chart type and data structure -->
@@ -166,10 +162,9 @@ CHOOSE ONE PRIMARY CONTENT TYPE:
         <!-- Include legend items with appropriate colors -->
     </div>
 </div>
-```
 
 3. PROCESS FLOW:
-```html
+
 <div class="process-container">
     <div class="process-step">
         <div class="step-number">1</div>
@@ -180,10 +175,10 @@ CHOOSE ONE PRIMARY CONTENT TYPE:
     </div>
     <!-- Repeat step structure as needed -->
 </div>
-```
+
 
 4. COMPARISON TABLE:
-```html
+
 <table class="comparison-table">
     <thead>
         <tr>
@@ -200,10 +195,10 @@ CHOOSE ONE PRIMARY CONTENT TYPE:
         <!-- Additional rows as needed -->
     </tbody>
 </table>
-```
+
 
 5. MATRIX/QUADRANT:
-```html
+
 <div class="matrix-container">
     <div class="matrix">
         <!-- Define axes, labels, and position elements -->
@@ -212,7 +207,6 @@ CHOOSE ONE PRIMARY CONTENT TYPE:
         <!-- Include legend with clear categorization -->
     </div>
 </div>
-```
 
 ###CUSTOMIZATION PARAMETERS###
 
@@ -237,7 +231,6 @@ EMPHASIS:
 - Specify primary focus elements to be visually highlighted
 - Indicate secondary elements that support the main message
 - Note any elements that should be de-emphasized
-```
 
 ## How This Prompt Ensures Exceptional Slide Creation
 
