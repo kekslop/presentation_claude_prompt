@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Роадмап цифровой трансформации банка в LLM сферу</title>
+    <style>
+        /* Base Styles */
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            margin: 0;
+            padding: 12px;
+            background-color: #fcfcfc;
+            color: #333;
+        }
+        
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 15px;
+        }
+        
+        h1 {
+            margin: 0;
+            padding: 10px 0;
+            font-size: 26px;
+        }
+        
+        .content-section {
+            background-color: #fffbe6;
+            border-radius: 8px;
+            padding: 15px;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+        }
+        
+        .section-title {
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 12px;
+            color: #262626;
+        }
+        
+        /* Content Components */
+        .cards-container {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 12px;
+            flex-wrap: wrap;
+        }
+        
+        .card {
+            background-color: white;
+            border-radius: 6px;
+            padding: 12px;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+            border-left: 3px solid #1890ff;
+            flex: 1;
+            min-width: 200px;
+        }
+        
+        .card h3 {
+            margin: 0 0 6px 0;
+            font-size: 15px;
+            color: #1890ff;
+        }
+        
+        .card p {
+            margin: 0;
+            font-size: 13px;
+            color: #595959;
+            line-height: 1.4;
+        }
+        
+        .highlight {
+            font-weight: bold;
+            color: #1890ff;
+        }
+        
+        /* Additional Components */
+        .bullet-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 8px;
+        }
+        
+        .bullet-tag {
+            background-color: #e6f7ff;
+            color: #1890ff;
+            border-radius: 16px;
+            padding: 4px 10px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        
+        /* Phase Colors */
+        .phase-1 { background-color: #e6f7ff; border-color: #1890ff; color: #0050b3; }
+        .phase-2 { background-color: #e6fffb; border-color: #13c2c2; color: #006d75; }
+        .phase-3 { background-color: #f9f0ff; border-color: #722ed1; color: #531dab; }
+        .phase-4 { background-color: #fff0f6; border-color: #eb2f96; color: #c41d7f; }
+        
+        /* Process Flow */
+        .process-container {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+        
+        .timeline {
+            display: flex;
+            margin-bottom: 20px;
+            position: relative;
+            height: 60px;
+        }
+        
+        .timeline::before {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background-color: #f0f0f0;
+            transform: translateY(-50%);
+            z-index: 1;
+        }
+        
+        .milestone {
+            position: relative;
+            z-index: 2;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .milestone-dot {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            margin-bottom: 8px;
+        }
+        
+        .milestone-date {
+            font-size: 12px;
+            font-weight: bold;
+        }
+        
+        .phase {
+            display: flex;
+            margin-bottom: 15px;
+            gap: 12px;
+        }
+        
+        .phase-label {
+            width: 120px;
+            font-weight: bold;
+            font-size: 14px;
+            padding: 8px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+        
+        .phase-content {
+            flex: 1;
+            background: white;
+            border-radius: 6px;
+            padding: 12px;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+        }
+        
+        .phase-title {
+            font-weight: bold;
+            margin-bottom: 6px;
+            font-size: 14px;
+        }
+        
+        .phase-description {
+            font-size: 13px;
+            color: #595959;
+            margin-bottom: 8px;
+        }
+        
+        /* Responsive Adjustments */
+        @media (max-width: 1100px) {
+            .cards-container {
+                flex-direction: column;
+            }
+            
+            .phase {
+                flex-direction: column;
+            }
+            
+            .phase-label {
+                width: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Роадмап цифровой трансформации банка в LLM сферу</h1>
+        </div>
+        
+        <div class="content-section">
+            <div class="section-title">График и фазы внедрения</div>
+            
+            <div class="timeline">
+                <div class="milestone">
+                    <div class="milestone-dot" style="background-color: #1890ff;"></div>
+                    <div class="milestone-date">Q3 2025</div>
+                </div>
+                <div class="milestone">
+                    <div class="milestone-dot" style="background-color: #13c2c2;"></div>
+                    <div class="milestone-date">Q1 2026</div>
+                </div>
+                <div class="milestone">
+                    <div class="milestone-dot" style="background-color: #722ed1;"></div>
+                    <div class="milestone-date">Q3 2026</div>
+                </div>
+                <div class="milestone">
+                    <div class="milestone-dot" style="background-color: #eb2f96;"></div>
+                    <div class="milestone-date">Q2 2027</div>
+                </div>
+            </div>
+            
+            <div class="process-container">
+                <div class="phase">
+                    <div class="phase-label phase-1">Фаза 1<br>Базовая интеграция</div>
+                    <div class="phase-content">
+                        <div class="phase-title">Формирование фундамента LLM-технологий</div>
+                        <div class="phase-description">Внедрение базовых LLM-решений для внутреннего использования и тестирование в ограниченном клиентском сегменте. Формирование специализированной команды, создание инфраструктуры и установление базовых метрик.</div>
+                        <div class="bullet-tags">
+                            <div class="bullet-tag">Виртуальные ассистенты</div>
+                            <div class="bullet-tag">Анализ документов</div>
+                            <div class="bullet-tag">Обучение персонала</div>
+                            <div class="bullet-tag">Пилотирование</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="phase">
+                    <div class="phase-label phase-2">Фаза 2<br>Расширение возможностей</div>
+                    <div class="phase-content">
+                        <div class="phase-title">Масштабирование LLM во всех направлениях банка</div>
+                        <div class="phase-description">Расширение использования LLM на ключевые бизнес-процессы, включая кредитование, риск-менеджмент и клиентский сервис. Интеграция с существующими системами банка и оптимизация производительности.</div>
+                        <div class="bullet-tags">
+                            <div class="bullet-tag">Автоматизация кредитного анализа</div>
+                            <div class="bullet-tag">Многоязычная поддержка</div>
+                            <div class="bullet-tag">Аналитика данных</div>
+                            <div class="bullet-tag">Интеграция в мобильный банк</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="phase">
+                    <div class="phase-label phase-3">Фаза 3<br>Передовые решения</div>
+                    <div class="phase-content">
+                        <div class="phase-title">Внедрение продвинутых LLM-инструментов</div>
+                        <div class="phase-description">Разработка и внедрение кастомизированных LLM-моделей для специфических банковских задач. Создание инновационных продуктов на основе LLM и формирование экосистемы партнерств с финтех-компаниями.</div>
+                        <div class="bullet-tags">
+                            <div class="bullet-tag">Персонализированные финансовые советники</div>
+                            <div class="bullet-tag">Предиктивная аналитика</div>
+                            <div class="bullet-tag">Защита от мошенничества</div>
+                            <div class="bullet-tag">Агентские системы</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="phase">
+                    <div class="phase-label phase-4">Фаза 4<br>Полная трансформация</div>
+                    <div class="phase-content">
+                        <div class="phase-title">LLM-ориентированная организация</div>
+                        <div class="phase-description">Полная трансформация банка в организацию, где LLM являются ядром всех бизнес-процессов и культуры. Создание собственной LLM-платформы и выход на роль лидера в инновациях банковской отрасли.</div>
+                        <div class="bullet-tags">
+                            <div class="bullet-tag">Собственная LLM платформа</div>
+                            <div class="bullet-tag">Когнитивные финансовые продукты</div>
+                            <div class="bullet-tag">Полная автоматизация процессов</div>
+                            <div class="bullet-tag">Построение экосистемы</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="cards-container">
+                <div class="card phase-1">
+                    <h3>Ключевые показатели успеха (Фаза 1)</h3>
+                    <p>• Внедрение базовых чат-ботов для 3+ направлений<br>
+                    • Автоматизация обработки 40% типовых запросов<br>
+                    • Обучение 100% сотрудников основам LLM<br>
+                    • Снижение времени обработки документов на 30%</p>
+                </div>
+                <div class="card phase-2">
+                    <h3>Ключевые показатели успеха (Фаза 2)</h3>
+                    <p>• Автоматизация 60% процесса андеррайтинга<br>
+                    • Повышение удовлетворенности клиентов на 25%<br>
+                    • Сокращение операционных расходов на 15%<br>
+                    • Запуск 5+ новых LLM-сервисов</p>
+                </div>
+                <div class="card phase-3">
+                    <h3>Ключевые показатели успеха (Фаза 3)</h3>
+                    <p>• Запуск собственной модели для финансового анализа<br>
+                    • Снижение фрода на 40% через LLM-системы<br>
+                    • Интеграция с 10+ внешними партнерами<br>
+                    • Рост числа цифровых продаж на 35%</p>
+                </div>
+                <div class="card phase-4">
+                    <h3>Ключевые показатели успеха (Фаза 4)</h3>
+                    <p>• Достижение полной цифровой трансформации процессов<br>
+                    • Лидерство в отраслевых рейтингах инноваций<br>
+                    • Увеличение рыночной доли на 20%<br>
+                    • Переход 80% клиентов на LLM-сервисы</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

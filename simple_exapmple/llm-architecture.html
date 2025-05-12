@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Архитектура LLM-платформы для банка</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #fcfcfc;
+            color: #333;
+        }
+        
+        .architecture-container {
+            width: 100%;
+            max-width: 1600px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        .main-content {
+            display: flex;
+            width: 100%;
+        }
+        
+        .cross-cutting {
+            width: 30px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background-color: #f5f5f5;
+            border-radius: 4px;
+            position: relative;
+        }
+        
+        .cross-cutting-title {
+            position: absolute;
+            top: 50%;
+            transform-origin: center;
+            white-space: nowrap;
+            font-weight: bold;
+            font-size: 14px;
+        }
+        
+        .monitoring {
+            border-left: 4px solid #0050b3;
+            margin-right: 8px;
+        }
+        
+        .monitoring .cross-cutting-title {
+            transform: translateY(-50%) rotate(-90deg);
+            color: #0050b3;
+            left: -80px;
+        }
+        
+        .management {
+            border-right: 4px solid #d4b106;
+            margin-left: 8px;
+        }
+        
+        .management .cross-cutting-title {
+            transform: translateY(-50%) rotate(90deg);
+            color: #d4b106;
+            right: -80px;
+        }
+        
+        .central-layers {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .layer {
+            padding: 15px;
+            margin-bottom: 2px;
+            display: flex;
+            position: relative;
+        }
+        
+        .layer-info {
+            width: 200px;
+            padding-right: 15px;
+        }
+        
+        .layer-title {
+            font-weight: bold;
+            margin-bottom: 5px;
+            font-size: 14px;
+        }
+        
+        .layer-subtitle {
+            font-size: 12px;
+            color: #666;
+        }
+        
+        .layer-components {
+            display: flex;
+            flex: 1;
+            gap: 10px;
+        }
+        
+        .component {
+            flex: 1;
+            padding: 15px 10px;
+            border-radius: 6px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background-color: white;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            text-align: center;
+            min-height: 60px;
+        }
+        
+        .component-title {
+            font-weight: 500;
+            margin-bottom: 5px;
+            font-size: 14px;
+        }
+        
+        .component-subtitle {
+            font-size: 12px;
+            color: #666;
+        }
+        
+        /* Layer specific styles */
+        .client-layer {
+            background-color: #e6f7ff;
+        }
+        
+        .client-component {
+            border: 1px solid #91d5ff;
+            color: #0050b3;
+        }
+        
+        .api-layer {
+            background-color: #f6ffed;
+        }
+        
+        .api-component {
+            border: 1px solid #b7eb8f;
+            color: #389e0d;
+        }
+        
+        .orchestration-layer {
+            background-color: #fff2e8;
+        }
+        
+        .orchestration-component {
+            border: 1px solid #ffbb96;
+            color: #d4380d;
+        }
+        
+        .model-layer {
+            background-color: #f9f0ff;
+        }
+        
+        .model-component {
+            border: 1px solid #d3adf7;
+            color: #531dab;
+        }
+        
+        .integration-layer {
+            background-color: #e6fffb;
+        }
+        
+        .integration-component {
+            border: 1px solid #87e8de;
+            color: #006d75;
+        }
+        
+        .storage-layer {
+            background-color: #fff0f6;
+        }
+        
+        .storage-component {
+            border: 1px solid #ffadd2;
+            color: #c41d7f;
+        }
+        
+        /* Cross-cutting components */
+        .mini-components {
+            position: absolute;
+            top: 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            width: 20px;
+        }
+        
+        .monitoring-components {
+            left: 5px;
+        }
+        
+        .management-components {
+            right: 5px;
+        }
+        
+        .mini-component {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+        }
+        
+        .mini-tooltip {
+            position: absolute;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            padding: 5px;
+            border-radius: 4px;
+            font-size: 12px;
+            z-index: 10;
+            white-space: nowrap;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        
+        .mini-component:hover .mini-tooltip {
+            opacity: 1;
+        }
+        
+        .monitoring-mini {
+            background-color: #1890ff;
+        }
+        
+        .management-mini {
+            background-color: #faad14;
+        }
+    </style>
+</head>
+<body>
+    <div class="architecture-container">
+        <div class="header">
+            <h1>Архитектура LLM-платформы для банка</h1>
+        </div>
+        
+        <div class="main-content">
+            <div class="cross-cutting monitoring">
+                <div class="cross-cutting-title">Мониторинг и безопасность</div>
+                <div class="mini-components monitoring-components">
+                    <div class="mini-component monitoring-mini" title="MLflow Трейсинг"></div>
+                    <div class="mini-component monitoring-mini" title="Prometheus Метрики"></div>
+                    <div class="mini-component monitoring-mini" title="Grafana Визуализация"></div>
+                    <div class="mini-component monitoring-mini" title="ELK Stack Логи"></div>
+                    <div class="mini-component monitoring-mini" title="Vault Секреты"></div>
+                    <div class="mini-component monitoring-mini" title="Keycloak IAM"></div>
+                </div>
+            </div>
+            
+            <div class="central-layers">
+                <div class="layer client-layer">
+                    <div class="layer-info">
+                        <div class="layer-title">Уровень клиентов (Client Layer)</div>
+                        <div class="layer-subtitle">Интерфейсы для взаимодействия с LLM-платформой</div>
+                    </div>
+                    <div class="layer-components">
+                        <div class="component client-component">
+                            <div class="component-title">REST API</div>
+                        </div>
+                        <div class="component client-component">
+                            <div class="component-title">GraphQL API</div>
+                        </div>
+                        <div class="component client-component">
+                            <div class="component-title">gRPC Сервисы</div>
+                        </div>
+                        <div class="component client-component">
+                            <div class="component-title">SDK Клиенты</div>
+                        </div>
+                        <div class="component client-component">
+                            <div class="component-title">Webhooks</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="layer api-layer">
+                    <div class="layer-info">
+                        <div class="layer-title">Уровень API Gateway</div>
+                        <div class="layer-subtitle">Управление доступом, квотирование, логирование</div>
+                    </div>
+                    <div class="layer-components">
+                        <div class="component api-component">
+                            <div class="component-title">Аутентификация/Авторизация</div>
+                        </div>
+                        <div class="component api-component">
+                            <div class="component-title">Балансировка нагрузки</div>
+                        </div>
+                        <div class="component api-component">
+                            <div class="component-title">Квотирование запросов</div>
+                        </div>
+                        <div class="component api-component">
+                            <div class="component-title">Логирование запросов</div>
+                        </div>
+                        <div class="component api-component">
+                            <div class="component-title">Фильтрация PII данных</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="layer orchestration-layer">
+                    <div class="layer-info">
+                        <div class="layer-title">Уровень оркестрации и роутинга LLM (LiteLLM)</div>
+                        <div class="layer-subtitle">Управление промптами, маршрутизация запросов, кэширование</div>
+                    </div>
+                    <div class="layer-components">
+                        <div class="component orchestration-component">
+                            <div class="component-title">LiteLLM Router</div>
+                            <div class="component-subtitle">Маршрутизация запросов</div>
+                        </div>
+                        <div class="component orchestration-component">
+                            <div class="component-title">Prompt Manager</div>
+                            <div class="component-subtitle">Управление шаблонами</div>
+                        </div>
+                        <div class="component orchestration-component">
+                            <div class="component-title">Контекстный менеджер</div>
+                            <div class="component-subtitle">Обогащение запросов</div>
+                        </div>
+                        <div class="component orchestration-component">
+                            <div class="component-title">Guard Rails</div>
+                            <div class="component-subtitle">Безопасность генерации</div>
+                        </div>
+                        <div class="component orchestration-component">
+                            <div class="component-title">Response Processor</div>
+                            <div class="component-subtitle">Постобработка ответов</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="layer model-layer">
+                    <div class="layer-info">
+                        <div class="layer-title">Уровень моделей (Model Layer)</div>
+                        <div class="layer-subtitle">LLM модели, эмбеддинги, специализированные ML-модели</div>
+                    </div>
+                    <div class="layer-components">
+                        <div class="component model-component">
+                            <div class="component-title">LLM Open Source</div>
+                        </div>
+                        <div class="component model-component">
+                            <div class="component-title">LLM Proprietary</div>
+                        </div>
+                        <div class="component model-component">
+                            <div class="component-title">Embedding Models</div>
+                        </div>
+                        <div class="component model-component">
+                            <div class="component-title">RAG компоненты</div>
+                        </div>
+                        <div class="component model-component">
+                            <div class="component-title">ML для скоринга</div>
+                        </div>
+                        <div class="component model-component">
+                            <div class="component-title">Модели валидации</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="layer integration-layer">
+                    <div class="layer-info">
+                        <div class="layer-title">Уровень интеграции (Integration Layer)</div>
+                        <div class="layer-subtitle">Коннекторы к банковским системам, адаптеры</div>
+                    </div>
+                    <div class="layer-components">
+                        <div class="component integration-component">
+                            <div class="component-title">CRM Адаптер</div>
+                        </div>
+                        <div class="component integration-component">
+                            <div class="component-title">АБС Адаптер</div>
+                        </div>
+                        <div class="component integration-component">
+                            <div class="component-title">DWH Коннектор</div>
+                        </div>
+                        <div class="component integration-component">
+                            <div class="component-title">Процессинг Адаптер</div>
+                        </div>
+                        <div class="component integration-component">
+                            <div class="component-title">ДБО Адаптер</div>
+                        </div>
+                        <div class="component integration-component">
+                            <div class="component-title">Kafka Consumer</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="layer storage-layer">
+                    <div class="layer-info">
+                        <div class="layer-title">Уровень хранения и управления данными</div>
+                        <div class="layer-subtitle">Векторные БД, хранилища промптов, кэш, логи</div>
+                    </div>
+                    <div class="layer-components">
+                        <div class="component storage-component">
+                            <div class="component-title">PostgreSQL</div>
+                        </div>
+                        <div class="component storage-component">
+                            <div class="component-title">Redis Cache</div>
+                        </div>
+                        <div class="component storage-component">
+                            <div class="component-title">Milvus/Qdrant</div>
+                        </div>
+                        <div class="component storage-component">
+                            <div class="component-title">Prompt Repository</div>
+                        </div>
+                        <div class="component storage-component">
+                            <div class="component-title">S3 Storage</div>
+                        </div>
+                        <div class="component storage-component">
+                            <div class="component-title">MongoDB</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="cross-cutting management">
+                <div class="cross-cutting-title">Управление и администрирование</div>
+                <div class="mini-components management-components">
+                    <div class="mini-component management-mini" title="Admin UI"></div>
+                    <div class="mini-component management-mini" title="CI/CD Pipeline"></div>
+                    <div class="mini-component management-mini" title="Prompt IDE"></div>
+                    <div class="mini-component management-mini" title="A/B Testing"></div>
+                    <div class="mini-component management-mini" title="Quality Monitor"></div>
+                    <div class="mini-component management-mini" title="Cost Control"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
