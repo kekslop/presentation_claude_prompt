@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Матрица приоритетов процессов для внедрения LLM</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            margin: 0;
+            padding: 12px;
+            background-color: #fcfcfc;
+            color: #333;
+        }
+        
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 15px;
+        }
+        
+        h1 {
+            margin: 0;
+            padding: 10px 0;
+            font-size: 26px;
+        }
+        
+        .matrix-section {
+            background-color: #fffbe6;
+            border-radius: 8px;
+            padding: 15px;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+        }
+        
+        .section-title {
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 12px;
+            color: #262626;
+        }
+        
+        .matrix-container {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            background-color: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+            margin-top: 15px;
+        }
+        
+        .matrix {
+            position: relative;
+            height: 500px;
+            margin: 30px 50px 10px 60px;
+        }
+        
+        .axis-x, .axis-y {
+            position: absolute;
+            background-color: #d9d9d9;
+        }
+        
+        .axis-x {
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+        }
+        
+        .axis-y {
+            top: 0;
+            bottom: 0;
+            left: 0;
+            width: 2px;
+        }
+        
+        .x-label, .y-label {
+            position: absolute;
+            font-weight: bold;
+            color: #262626;
+            text-align: center;
+        }
+        
+        .x-label {
+            bottom: -30px;
+            left: 0;
+            right: 0;
+        }
+        
+        .y-label {
+            transform: rotate(-90deg);
+            transform-origin: center;
+            white-space: nowrap;
+            left: -40px;
+            top: 50%;
+            margin-top: -10px;
+        }
+        
+        .quadrant-labels {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            pointer-events: none;
+        }
+        
+        .quadrant-label {
+            position: absolute;
+            font-size: 14px;
+            color: #8c8c8c;
+            text-align: center;
+            padding: 10px;
+            pointer-events: none;
+        }
+        
+        .q1 {
+            top: 20px;
+            right: 20px;
+        }
+        
+        .q2 {
+            top: 20px;
+            left: 20px;
+        }
+        
+        .q3 {
+            bottom: 20px;
+            left: 20px;
+        }
+        
+        .q4 {
+            bottom: 20px;
+            right: 20px;
+        }
+        
+        .matrix-dividers {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            pointer-events: none;
+        }
+        
+        .divider-x, .divider-y {
+            position: absolute;
+            background-color: #f0f0f0;
+        }
+        
+        .divider-x {
+            left: 0;
+            right: 0;
+            height: 1px;
+            top: 50%;
+        }
+        
+        .divider-y {
+            top: 0;
+            bottom: 0;
+            width: 1px;
+            left: 50%;
+        }
+        
+        .process {
+            position: absolute;
+            width: 110px;
+            height: 50px;
+            background-color: white;
+            border-radius: 6px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            font-size: 12px;
+            font-weight: 500;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            z-index: 2;
+        }
+        
+        .process:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+            z-index: 3;
+        }
+        
+        .phase-1 {
+            background-color: #e6f7ff;
+            border: 2px solid #1890ff;
+            color: #0050b3;
+        }
+        
+        .phase-2 {
+            background-color: #e6fffb;
+            border: 2px solid #13c2c2;
+            color: #006d75;
+        }
+        
+        .phase-3 {
+            background-color: #f9f0ff;
+            border: 2px solid #722ed1;
+            color: #531dab;
+        }
+        
+        .phase-4 {
+            background-color: #fff0f6;
+            border: 2px solid #eb2f96;
+            color: #c41d7f;
+        }
+        
+        .legend {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+            font-size: 13px;
+            color: #595959;
+        }
+        
+        .legend-color {
+            width: 16px;
+            height: 16px;
+            border-radius: 4px;
+            margin-right: 6px;
+        }
+        
+        .legend-phase-1 {
+            background-color: #e6f7ff;
+            border: 2px solid #1890ff;
+        }
+        
+        .legend-phase-2 {
+            background-color: #e6fffb;
+            border: 2px solid #13c2c2;
+        }
+        
+        .legend-phase-3 {
+            background-color: #f9f0ff;
+            border: 2px solid #722ed1;
+        }
+        
+        .legend-phase-4 {
+            background-color: #fff0f6;
+            border: 2px solid #eb2f96;
+        }
+        
+        .insights {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+        }
+        
+        .insights-title {
+            font-weight: bold;
+            font-size: 14px;
+            margin-bottom: 10px;
+            color: #262626;
+        }
+        
+        .insights-list {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 10px;
+        }
+        
+        .insights-item {
+            padding-left: 20px;
+            position: relative;
+            font-size: 13px;
+            color: #595959;
+        }
+        
+        .insights-item:before {
+            content: "•";
+            position: absolute;
+            left: 5px;
+            top: 0;
+            color: #1890ff;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Матрица приоритетов процессов для внедрения LLM</h1>
+        </div>
+        
+        <div class="matrix-section">
+            <div class="section-title">Ранжирование процессов по бизнес-эффекту и сложности внедрения</div>
+            
+            <div class="matrix-container">
+                <div class="matrix">
+                    <div class="axis-x"></div>
+                    <div class="axis-y"></div>
+                    
+                    <div class="x-label">Сложность внедрения</div>
+                    <div class="y-label">Бизнес-эффект</div>
+                    
+                    <div class="matrix-dividers">
+                        <div class="divider-x"></div>
+                        <div class="divider-y"></div>
+                    </div>
+                    
+                    <div class="quadrant-labels">
+                        <div class="quadrant-label q1">Стратегические проекты<br/>(Высокий эффект / Высокая сложность)</div>
+                        <div class="quadrant-label q2">Быстрые победы<br/>(Высокий эффект / Низкая сложность)</div>
+                        <div class="quadrant-label q3">Отложить<br/>(Низкий эффект / Низкая сложность)</div>
+                        <div class="quadrant-label q4">Переоценить<br/>(Низкий эффект / Высокая сложность)</div>
+                    </div>
+                    
+                    <!-- Фаза 1: Быстрые победы -->
+                    <div class="process phase-1" style="left: 20%; top: 25%;">Чат-поддержка 1 линии</div>
+                    <div class="process phase-1" style="left: 30%; top: 30%;">Роутинг обращений</div>
+                    <div class="process phase-1" style="left: 25%; top: 20%;">Маркетинговые коммуникации</div>
+                    
+                    <!-- Фаза 2: Высокоприоритетные процессы -->
+                    <div class="process phase-2" style="left: 45%; top: 35%;">Документооборот</div>
+                    <div class="process phase-2" style="left: 38%; top: 28%;">Подготовка типовых ответов</div>
+                    <div class="process phase-2" style="left: 55%; top: 38%;">Персонализация предложений</div>
+                    <div class="process phase-2" style="left: 48%; top: 32%;">KYC</div>
+                    
+                    <!-- Фаза 3: Средний приоритет -->
+                    <div class="process phase-3" style="left: 62%; top: 45%;">Мониторинг транзакций</div>
+                    <div class="process phase-3" style="left: 58%; top: 55%;">Сопровождение инвестиционных сделок</div>
+                    <div class="process phase-3" style="left: 70%; top: 60%;">ДБО</div>
+                    <div class="process phase-3" style="left: 52%; top: 65%;">Управление электронными очередями</div>
+                    
+                    <!-- Фаза 4: Сложные процессы -->
+                    <div class="process phase-4" style="left: 75%; top: 75%;">Кредитный скоринг</div>
+                    <div class="process phase-4" style="left: 80%; top: 70%;">Противодействие мошенничеству</div>
+                    <div class="process phase-4" style="left: 85%; top: 78%;">Биометрические услуги</div>
+                    <div class="process phase-4" style="left: 82%; top: 65%;">Ценообразование</div>
+                </div>
+                
+                <div class="legend">
+                    <div class="legend-item">
+                        <div class="legend-color legend-phase-1"></div>
+                        <span>Фаза 1: MVP (3-4 мес)</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color legend-phase-2"></div>
+                        <span>Фаза 2: Фундамент платформы (6-8 мес)</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color legend-phase-3"></div>
+                        <span>Фаза 3: Масштабирование (12-18 мес)</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color legend-phase-4"></div>
+                        <span>Фаза 4: Системная трансформация (18-36 мес)</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="insights">
+                <div class="insights-title">Ключевые выводы для планирования проекта:</div>
+                <ul class="insights-list">
+                    <li class="insights-item">Начинать внедрение LLM следует с "быстрых побед" - процессов с высоким бизнес-эффектом и низкой сложностью (левый верхний квадрант)</li>
+                    <li class="insights-item">Процессы в правом верхнем квадранте требуют стратегического подхода и должны быть включены в долгосрочный план</li>
+                    <li class="insights-item">Автоматизация клиентской поддержки первой линии имеет потенциал автономности до 90% и является оптимальной для быстрого старта</li>
+                    <li class="insights-item">Процессы, связанные с оценкой рисков и предотвращением мошенничества, требуют гибридного подхода (LLM+ML) из-за регуляторных требований</li>
+                    <li class="insights-item">Постепенное внедрение LLM в процессы обеспечит накопление опыта и снижение рисков на каждом этапе</li>
+                    <li class="insights-item">Высокий бизнес-эффект обеспечивается процессами с большим объемом однотипных операций и/или высокой частотой выполнения</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

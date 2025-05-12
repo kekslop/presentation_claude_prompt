@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Оптимизированная дорожная карта внедрения LLM-платформы</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            margin: 0;
+            padding: 12px;
+            background-color: #fcfcfc;
+            color: #333;
+        }
+        
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 15px;
+        }
+        
+        h1 {
+            margin: 0;
+            padding: 10px 0;
+            font-size: 26px;
+        }
+        
+        .kpi-section {
+            background-color: #fffbe6;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+        }
+        
+        .section-title {
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 12px;
+            color: #262626;
+        }
+        
+        .kpi-cards {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+        
+        .kpi-card {
+            background-color: white;
+            border-radius: 6px;
+            padding: 12px;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+            border-left: 3px solid #1890ff;
+            flex: 1;
+        }
+        
+        .kpi-card h3 {
+            margin: 0 0 6px 0;
+            font-size: 15px;
+            color: #1890ff;
+        }
+        
+        .kpi-card p {
+            margin: 0;
+            font-size: 13px;
+            color: #595959;
+            line-height: 1.4;
+        }
+        
+        .kpi-highlight {
+            font-weight: bold;
+            color: #1890ff;
+        }
+        
+        .kpi-bullets {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        
+        .kpi-bullet {
+            background-color: #e6f7ff;
+            color: #1890ff;
+            border-radius: 16px;
+            padding: 4px 10px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        
+        .roadmap-section {
+            background-color: #fffbe6;
+            border-radius: 8px;
+            padding: 15px;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+        }
+        
+        .timeline-container {
+            margin-top: 20px;
+            position: relative;
+        }
+        
+        .timeline-track {
+            position: relative;
+            height: 3px;
+            background-color: #e8e8e8;
+            margin: 0 20px 15px;
+        }
+        
+        .timeline-months {
+            display: flex;
+            justify-content: space-between;
+            margin: 0 20px 5px;
+            position: relative;
+        }
+        
+        .month-marker {
+            font-size: 11px;
+            color: #8c8c8c;
+            text-align: center;
+        }
+        
+        .phases {
+            display: flex;
+            gap: 10px;
+            margin: 0 20px;
+        }
+        
+        .phase {
+            flex: 1;
+            position: relative;
+        }
+        
+        .phase-bar {
+            height: 32px;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 10px;
+            color: white;
+            font-weight: 500;
+            font-size: 13px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            margin-bottom: 8px;
+        }
+        
+        .phase-duration {
+            font-size: 11px;
+            opacity: 0.9;
+        }
+        
+        .phase-1 { background-color: #1890ff; }
+        .phase-2 { background-color: #13c2c2; }
+        .phase-3 { background-color: #722ed1; }
+        .phase-4 { background-color: #eb2f96; }
+        
+        .phase-content {
+            background-color: white;
+            border-radius: 6px;
+            padding: 10px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            min-height: 140px;
+            font-size: 12px;
+            color: #595959;
+        }
+        
+        .phase-details {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .phase-details li {
+            margin-bottom: 6px;
+            padding-left: 14px;
+            position: relative;
+        }
+        
+        .phase-details li:before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            top: 0;
+            color: #1890ff;
+        }
+        
+        .phase-1 .phase-details li:before { color: #1890ff; }
+        .phase-2 .phase-details li:before { color: #13c2c2; }
+        .phase-3 .phase-details li:before { color: #722ed1; }
+        .phase-4 .phase-details li:before { color: #eb2f96; }
+        
+        .budget-note {
+            margin-top: 15px;
+            padding: 10px;
+            background-color: #f9f9f9;
+            border-radius: 5px;
+            border-left: 3px solid #faad14;
+            font-style: italic;
+            color: #595959;
+            font-size: 12px;
+        }
+        
+        @media (max-width: 1100px) {
+            .kpi-cards {
+                flex-wrap: wrap;
+            }
+            
+            .kpi-card {
+                min-width: 200px;
+            }
+            
+            .phases {
+                flex-direction: column;
+            }
+            
+            .phase-content {
+                min-height: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Дорожная карта внедрения LLM-платформы в банке</h1>
+        </div>
+        
+        <div class="kpi-section">
+            <div class="section-title">Ожидаемые результаты внедрения</div>
+            
+            <div class="kpi-cards">
+                <div class="kpi-card">
+                    <h3>Экономия затрат</h3>
+                    <p><span class="kpi-highlight">40-60% сокращение затрат</span> при внедрении каждого нового LLM-решения после первых 3-5 внедрений</p>
+                </div>
+                
+                <div class="kpi-card">
+                    <h3>Снижение TCO</h3>
+                    <p><span class="kpi-highlight">Снижение стоимости владения на 30%</span> за счет унифицированной архитектуры и избежания дублирования</p>
+                </div>
+                
+                <div class="kpi-card">
+                    <h3>Оптимизация персонала</h3>
+                    <p><span class="kpi-highlight">Высвобождение 15-20% FTE</span> без нужды возвращать найм при масштабировании</p>
+                </div>
+                
+                <div class="kpi-card">
+                    <h3>Скорость внедрения</h3>
+                    <p><span class="kpi-highlight">Выше time-to-market для новых AI-проектов на 65-75%</span> благодаря готовой инфраструктуре</p>
+                </div>
+                
+                <div class="kpi-card">
+                    <h3>Бизнес-эффекты</h3>
+                    <p><span class="kpi-highlight">ROI 250-300%</span> в течение 18-24 месяцев за счет комплексного подхода к внедрению</p>
+                </div>
+            </div>
+            
+            <div class="kpi-bullets">
+                <div class="kpi-bullet">Повышение NPS на 10-15 пунктов</div>
+                <div class="kpi-bullet">Увеличение конверсии продаж на 20-30%</div>
+                <div class="kpi-bullet">Снижение операционных затрат на 25-35%</div>
+                <div class="kpi-bullet">Автоматизация 90% типовых запросов</div>
+            </div>
+        </div>
+        
+        <div class="roadmap-section">
+            <div class="section-title">Фазы реализации проекта</div>
+            
+            <div class="timeline-container">
+                <div class="timeline-months">
+                    <div class="month-marker">Старт</div>
+                    <div class="month-marker">3 мес</div>
+                    <div class="month-marker">6 мес</div>
+                    <div class="month-marker">9 мес</div>
+                    <div class="month-marker">12 мес</div>
+                    <div class="month-marker">18 мес</div>
+                    <div class="month-marker">24 мес</div>
+                    <div class="month-marker">36 мес</div>
+                </div>
+                
+                <div class="timeline-track"></div>
+                
+                <div class="phases">
+                    <div class="phase phase-1" style="flex-basis: 12%;">
+                        <div class="phase-bar">
+                            Фаза 1: MVP
+                            <span class="phase-duration">3-4 мес</span>
+                        </div>
+                        <div class="phase-content">
+                            <ul class="phase-details">
+                                <li>Реализация чат-поддержки 1 линии (90% автоматизация)</li>
+                                <li>Минимальная версия платформы роутинга на базе LiteLLM</li>
+                                <li>Интеграция с 1-2 критичными системами через API</li>
+                                <li>Бюджет: 5-10 млн руб</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="phase phase-2" style="flex-basis: 22%;">
+                        <div class="phase-bar">
+                            Фаза 2: Фундамент платформы
+                            <span class="phase-duration">6-8 мес</span>
+                        </div>
+                        <div class="phase-content">
+                            <ul class="phase-details">
+                                <li>Разработка полноценной платформы роутинга запросов</li>
+                                <li>Интеграция с ключевыми системами (CRM, АБС)</li>
+                                <li>Система управления промптами версия 1.0</li>
+                                <li>Подключение 3-5 процессов с высокой автономностью</li>
+                                <li>Бюджет: 30-50 млн руб</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="phase phase-3" style="flex-basis: 26%;">
+                        <div class="phase-bar">
+                            Фаза 3: Масштабирование
+                            <span class="phase-duration">12-18 мес</span>
+                        </div>
+                        <div class="phase-content">
+                            <ul class="phase-details">
+                                <li>Полная интеграция со всеми критичными системами</li>
+                                <li>Расширенная инфраструктура мониторинга</li>
+                                <li>Механизмы постоянного улучшения моделей</li>
+                                <li>Охват всех процессов высокой и средней автономности</li>
+                                <li>Бюджет: 80-120 млн руб</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="phase phase-4" style="flex-basis: 40%;">
+                        <div class="phase-bar">
+                            Фаза 4: Системная трансформация
+                            <span class="phase-duration">18-36 мес</span>
+                        </div>
+                        <div class="phase-content">
+                            <ul class="phase-details">
+                                <li>Разработка AI-нативных банковских продуктов</li>
+                                <li>Глубокая интеграция AI в процессы принятия решений</li>
+                                <li>Создание новых каналов взаимодействия на базе AI</li>
+                                <li>Персонализация на уровне отдельного клиента</li>
+                                <li>Бюджет: 150-200 млн руб</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="budget-note">
+                <strong>Модель финансирования:</strong> Бюджет формируется через комбинацию: 60-70% из централизованного инвестиционного бюджета и 30-40% из операционных бюджетов подразделений-бенефициаров. Применяется "плавающий бюджет" с автоматическим выделением средств при достижении KPI.
+            </div>
+        </div>
+    </div>
+</body>
+</html>
