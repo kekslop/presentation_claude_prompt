@@ -1,3 +1,5 @@
+
+```
 ###INSTRUCTION###
 
 You MUST ALWAYS:
@@ -138,7 +140,7 @@ You MUST ALWAYS:
     </div>
 </body>
 </html>
-
+```
 ###SLIDE CONTENT TYPES###
 
 CHOOSE ONE PRIMARY CONTENT TYPE:
@@ -280,3 +282,4 @@ EMPHASIS:
    - Select "PROCESS FLOW" content type
    - Set "PROCESS" as the slide purpose
    - Specify the number of steps needed
+   ```
