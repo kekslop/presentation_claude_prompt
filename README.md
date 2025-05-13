@@ -12,15 +12,15 @@ This repository contains HTML slides generated using Claude-3.7-sonnet with a sp
 
 ### Additional Examples
 
-We have more specialized examples in the simple_exapmple directory:
+We have more specialized examples in the simple_example directory:
 
 #### LLM Architecture for Banking
-![LLM Architecture](simple_exapmple/llm-architecture.png)
+![LLM Architecture](simple_example/llm-architecture.png)
 
 This slide visualizes a comprehensive architecture for implementing LLM technology in a banking environment, with clearly defined layers and components.
 
 #### Bank LLM Transformation Roadmap
-![Bank LLM Roadmap](simple_exapmple/bank-llm-roadmap.png)
+![Bank LLM Roadmap](simple_example/bank-llm-roadmap.png)
 
 This slide presents a phased approach to digital transformation for banks implementing LLM technologies, with timelines and key milestones.
 
